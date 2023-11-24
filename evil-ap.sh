@@ -572,7 +572,10 @@ xterm -geometry 100x30+0-0 -hold -e echo  "
 $GRE $passw0rd
 
 " &
-
+    sudo systemctl start NetworkManager
+    sudo systemctl stop NetworkManager
+    sudo systemctl start NetworkManager
+    sudo airmon-ng stop wlp4s0mon  > /dev/null 2>&1
 exit
 }
 
