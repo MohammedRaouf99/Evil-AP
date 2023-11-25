@@ -10,7 +10,7 @@
  <br>
  
  ```sudo git clone https://github.com/MohammedRaouf99/Evil-AP.git ```
- ذ
+ 
 <br>
  <h3>How to run </h3>
  <br>
