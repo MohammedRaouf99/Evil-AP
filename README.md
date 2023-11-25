@@ -9,7 +9,7 @@
  2. Open the terminal and type this is <br>
  <br>
  
- sudo git clone https://github.com/MohammedRaouf99/Evil-AP.git 
+ ```sudo git clone https://github.com/MohammedRaouf99/Evil-AP.git ```
  
  <br>
 <br>
