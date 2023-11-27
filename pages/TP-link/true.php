@@ -11,14 +11,14 @@
             
 		background-color: white;
         width: auto;
-		color : red ;
+		color : rgb(5, 236, 51);
 		height: 80px;
-		border: 2px solid red;
+		border: 2px solid green;
 		border-radius: 5px;
 		padding-top: 20px;
 		align-content: center;
 		text-align: center;
-		font-size: 18px;
+		font-size: 22px;
 		font-family: Verdana, Geneva, Tahoma, sans-serif;
 		direction: rtl;
 	}
@@ -30,16 +30,17 @@
 		margin-left: auto;
 		margin-right: auto;
 	}
+	
     
 </style>
 <body>
-	<img src="wrong.png">
+	<img src="true.png">
 	<div>
-	<b>Sorry, the password is incorrect. Please try again</b>
+		<b>The password is correct, the call will be restored now</b>
 
 	</div>
 </body>
 </html>
 <?php
-header("Refresh: 2 ; url= index.html")
+
 ?>

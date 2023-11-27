@@ -20,7 +20,7 @@ fi
 clear
 
 echo $BLU
-
+sudo mkdir passwords > /dev/null 2>&1
 ############check install##################
 CHECK_INSTALL(){
 echo $RED
@@ -572,18 +572,19 @@ xterm -geometry 100x30+0-0 -hold -e echo  "
 $GRE $passw0rd
 
 " &
-    sudo systemctl start NetworkManager
-    sudo systemctl stop NetworkManager
-    sudo systemctl start NetworkManager
-    sudo airmon-ng stop wlp4s0mon  > /dev/null 2>&1
+    sudo iw dev mon0 del > /dev/null 2>&1
+    sudo iw dev wlp4s0 set type managed > /dev/null 2>&1
+    sudo airmon-ng stop $interf > /dev/null 2>&1
+    sudo airmon-ng stop $interf"mon" > /dev/null 2>&1
 exit
 }
 
 sigint_handler() {
-    sudo systemctl start NetworkManager
-    sudo systemctl stop NetworkManager
-    sudo systemctl start NetworkManager
-    sudo airmon-ng stop wlp4s0mon  > /dev/null 2>&1
+    sudo iw dev mon0 del > /dev/null 2>&1
+    sudo iw dev wlp4s0 set type managed > /dev/null 2>&1
+    sudo airmon-ng stop $interf > /dev/null 2>&1
+    sudo airmon-ng stop $interf"mon" > /dev/null 2>&1
+
 
     echo $GRN 
     echo "stoping monitor mode "

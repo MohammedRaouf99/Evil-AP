@@ -1,1 +1,0 @@
-aircrack-ng 'evil.cap' -w 'pass_check.txt' | grep "KEY FOUND"
