@@ -35,7 +35,7 @@
 <body>
 	<img src="wrong.png">
 	<div>
-		<b>Sorry, please enter your Wi-Fi password to continue browsing</b>
+		<b>Sorry, the password is incorrect. Please try again</b>
 
 	</div>
 </body>

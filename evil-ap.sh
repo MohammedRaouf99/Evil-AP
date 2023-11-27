@@ -575,7 +575,8 @@ $GRE $passw0rd
     sudo iw dev mon0 del > /dev/null 2>&1
     sudo iw dev wlp4s0 set type managed > /dev/null 2>&1
     sudo airmon-ng stop $interf > /dev/null 2>&1
-    sudo airmon-ng stop $interf"mon" > /dev/null 2>&1
+    sudo airmon-ng stop $interf"mon" > /dev/null 2>&1 
+    rm info/* 2> /dev/null
 exit
 }
 
@@ -584,6 +585,7 @@ sigint_handler() {
     sudo iw dev wlp4s0 set type managed > /dev/null 2>&1
     sudo airmon-ng stop $interf > /dev/null 2>&1
     sudo airmon-ng stop $interf"mon" > /dev/null 2>&1
+    rm info/* 2> /dev/null
 
 
     echo $GRN 
