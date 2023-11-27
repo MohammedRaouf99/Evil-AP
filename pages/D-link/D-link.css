@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .container {
+    text-align: center;
+    max-width: 400px;
+    width: 80%;
+    position: relative;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+
+  button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 17px;
+  }
+
+  .logo {
+    width: 150px;
+    height: auto;
+    position: absolute;
+    top: -130px; 
+    left: 50%;
+    transform: translateX(-50%);
+    transition: top 0.5s ease; 
+  }
+
+
+  input:focus + .logo {
+    top: -80px; 
+  }
+  p {
+    font-size: 18px;
+  }
