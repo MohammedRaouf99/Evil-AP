@@ -203,7 +203,7 @@ empty_wifi=`cat info/wifi_csv.txt `
 
 if [ -z $empty_wifi ] 2> /dev/null
 then 
-echo $RED "There is on wifi network araoud you ......"
+echo $RED "There is on wifi network around you ......"
 exit
 else
 echo $BLU
