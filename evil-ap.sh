@@ -591,7 +591,7 @@ sleep 1
 echo""
 echo "Starting Crack ........"
 sleep 2
-if sudo aircrack-ng /tmp/$page/evil.cap -w pass_list.txt | grep -e "KEY FOUND"
+if sudo aircrack-ng /tmp/$page/evil.cap -w password_list.txt | grep -e "KEY FOUND"
 
 
 then
