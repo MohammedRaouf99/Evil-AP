@@ -51,7 +51,71 @@ echo ""
 else 
 echo ""
 echo $RED "you have $installed pkg NOT install please install it and try again !"
+echo ""
+echo $GRN
+read -p "Do you want installed ? [Y/n] " install
+
+case $install in 
+
+y|Y)
+clear
+echo $RED
+cat evil.txt
+echo ""
+echo "installing ....."
+yes | sudo apt install aircrack-ng > /dev/null 2>&1
+yes | sudo apt install hostapd > /dev/null 2>&1
+yes | sudo apt install dnsmasq > /dev/null 2>&1
+yes | sudo apt install lighttpd > /dev/null 2>&1
+yes | sudo apt install php > /dev/null 2>&1
+yes | sudo apt install php-cgi > /dev/null 2>&1
+yes | sudo apt install fuser > /dev/null 2>&1
+yes | sudo apt install mdk4 > /dev/null 2>&1
+yes | sudo apt install iptables > /dev/null 2>&1
+yes | sudo apt install xterm > /dev/null 2>&1
+
+
+echo ""
+echo "Done! try again Now !"
+echo ""
+echo "If some package not installed try installed manual !"
 exit
+;;
+n|N)
+clear
+echo $RED
+cat evil.txt
+echo ""
+echo "OK slam"
+exit
+;;
+
+
+*)
+clear
+echo $RED
+cat evil.txt
+echo ""
+echo "installing ....."
+yes | sudo apt install aircrack-ng > /dev/null 2>&1
+yes | sudo apt install hostapd > /dev/null 2>&1
+yes | sudo apt install dnsmasq > /dev/null 2>&1
+yes | sudo apt install lighttpd > /dev/null 2>&1
+yes | sudo apt install php > /dev/null 2>&1
+yes | sudo apt install php-cgi > /dev/null 2>&1
+yes | sudo apt install fuser > /dev/null 2>&1
+yes | sudo apt install mdk4 > /dev/null 2>&1
+yes | sudo apt install iptables > /dev/null 2>&1
+yes | sudo apt install xterm > /dev/null 2>&1
+
+
+echo ""
+echo "Done! try again Now !"
+echo ""
+echo "If some package not installed try installed manual !"
+exit
+;;
+esac
 fi
 sleep 0.5
 clear
