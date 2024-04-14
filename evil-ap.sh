@@ -442,7 +442,7 @@ DDOS(){
   cat evil.txt
   echo $BLU
   echo ""
-  empty2=`cat info/ddos_interface.txt > /dev/null 2>&1`
+  empty2=`cat info/ddos_interface.txt`
   if [ -z $empty2 ] 2> /dev/null
   then 
   echo $RED
