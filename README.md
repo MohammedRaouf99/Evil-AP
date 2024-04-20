@@ -40,15 +40,15 @@
  <br>
  3. you can customized The web page as you like <br>
 
- <br>
- <h3>Contact with me :</h3>
- <br>
+
 <br>
 <h3>Support Me </h3> <br>
-you can support me with <h2>1$</h2> monthly 
+you can support me with <strong>1$</strong> monthly 
 https://www.patreon.com/RaoufX
 <br>
- 
+  <br>
+ <h3>Contact with me :</h3>
+ <br>
  X(Twitter) : @Mo7mad_Raouf99
  <br>
  Telegram : @MohammedRaouf99
