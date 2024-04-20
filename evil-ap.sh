@@ -705,7 +705,11 @@ sigint_handler() {
 
     echo $GRN 
     echo "stoping monitor mode "
-    echo "see you agian"
+    echo "see you agian Slam"
+    echo $BLU
+    echo "If U like it support me with $GRN 1$ $BLU monthly "
+    echo "https://www.patreon.com/RaoufX"
+
 
     exit 1
 }
